@@ -1,5 +1,23 @@
-npm test
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
+branch="$(git rev-parse --abbrev-ref HEAD)"
 
+if [ "$branch" = "main" ]; then
+  echo "Não é permitido commits para a branch 'main'!"
+  exit 1
+fi
 
-    
+if [ "$branch" = "develop" ]; then
+  echo "Não é permitido commits para a branch 'develop'! (Crie uma PR da sua branch para a 'develop')"
+  exit 1
+fi
+
+if [ "$branch" = "homolog" ]; then
+  echo "Não é permitido commits para a branch 'main'! (Crie uma PR da branch 'develop' branch 'homolog')"
+
+  exit 1
+fi
+
+npm run lint:fix
+npm rum build
